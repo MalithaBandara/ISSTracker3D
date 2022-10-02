@@ -1,0 +1,588 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Track</title>
+    </head>
+    <body>
+   
+        <canvas id="canvasOne" background-color=black> 
+            Your browser does not support HTML5 Canvas.
+        </canvas>
+        <script
+        src="https://files.worldwind.arc.nasa.gov/artifactory/web/0.9.0/worldwind.min.js"
+        type="text/javascript"></script>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/4.0.0/satellite.min.js"></script>
+        
+        <div id="left-container">
+            <p class="Heading">Orbital Information</p>
+            <hr>
+            <P class="SubHeading">Current Location:</P>
+            <img id="flag" src="images/ocean.jpg">
+            <P class="SubHeading" id="LocationName">America</P>
+            <p class="SubHeading" id="Coordinates">38.87 N   77.01 W</p>
+            <p class="SubHeading" id="Altitude">Current Altitude: 421 km</p>
+            <p class="SubHeading" id="Velocity">Current Speed: 27578 km/h</p>
+            <hr>
+            <p class="Heading">Customize</p>
+            <hr>
+            <div class="Columns3">
+                <p class="SubHeading2" align="right">2D</p>
+                <label class="switch">
+                    <input type="checkbox" id="slider1" onclick="slider1()" checked>
+                    <span class="slider round"></span>
+                </label>
+                <p class="SubHeading2" align="left">3D</p>
+            </div>
+            <br>
+            <div>
+                <button id="street" class="image" align="right" onclick="street()"></button>
+                <button id="geographic" class="image" align="left" onclick="geographic()"></button>
+            </div>
+            <br>
+            <div class="Columns2">
+                <p class="SubHeading2" align="right">Day/Night</p>
+                <label class="switch">
+                    <input  type="checkbox" id="slider2" onclick="slider2()"  checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <br>
+            <div class="Columns2">
+                <p class="SubHeading2" align="right">Atmosphere</p>
+                <label class="switch">
+                    <input  type="checkbox" id="slider3" onclick="slider3()"  checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div id="right-container">
+            <div id="top"></div>
+            <p class="Heading">Over Head Predictions</p>
+            <hr>
+            <br>
+            <div class="Columns2">
+                <div class="input-container">
+                    <input id="input1" type="Number"/>
+                    <label>Latitudes</label>		
+                </div>
+                <div class="input-container">		
+                    <input id="input2" type="Number"/>
+                    <label>Longitudes</label>
+                </div>
+            </div>
+            <div class="Column2">
+                <button  class="btn41-43 btn-43" onclick="AddUser1()">Add User</button>
+                <button class="btn41-43 btn-43" onclick="Predict()">Predict</button>
+            </div>
+            <p class="SubHeading3">Enter co-ordinates in <a href="https://en.wikipedia.org/wiki/Decimal_degrees">decimal degrees</a> format</p>
+            <p class="SubHeading4">Or</p>
+            <div class="input1">
+                <div class="input-container">		
+                <input id="input3" type="Text"/>
+                <label>Address</label>
+            </div>
+            <div class="Column2">
+                <button  class="btn41-43 btn-43" onclick="AddUser2()">Add User</button>
+                <button class="btn41-43 btn-43" onclick="Predict2()">Predict</button>
+            </div>
+            <div id="Records">
+                <p id="Desc" class="SubHeading3"></p>
+                <p id = "Record1" class="SubHeading1"></p>
+                <p id = "Record10" class="SubHeading1"></p>
+                <p id = "Record2" class="SubHeading1"></p>
+                <p id = "Record20" class="SubHeading1"></p>
+                <p id = "Record3" class="SubHeading1"></p>
+                <p id = "Record30" class="SubHeading1"></p>
+            </div>
+        </div>
+            
+        </div>
+
+        <script>
+             function slider1(){
+            var slider1 = document.getElementById("slider1");
+            if (slider1.checked == true){
+              console.log("Slider On");
+            } else {
+              console.log("Slider Off");
+            }
+        }
+
+        
+        function slider2(){
+            var slider2 = document.getElementById("slider2");
+            if (slider2.checked == true){
+              console.log("Slider On");
+            } else {
+              console.log("Slider Off");
+            }
+        }
+
+        function slider3(){
+            var slider3 = document.getElementById("slider3");
+            if (slider3.checked == true){
+              console.log("Slider On");
+            } else {
+              console.log("Slider Off");
+            }
+        }
+       
+
+
+        
+
+    
+            
+        function Predict(){
+            var Userlat = document.getElementById('input1').value;
+            var Userlng = document.getElementById('input2').value;
+            prediction1();
+
+            function prediction1(){
+                fetch(`https://api.g7vrd.co.uk/v1/satellite-passes/25544/${Userlat}/${Userlng}.json?hours=72`) 
+        .then((response) => response.json())
+        .then((json) => {
+            
+            var Start1 = json.passes[0].start;
+            Start1 = Start1.replace("T", " ");
+            Start1 = Start1.replace("Z", " ");
+            var Start2 = json.passes[1].start;
+            Start2 = Start2.replace("T", " ");
+            Start2 = Start2.replace("Z", " ");
+            var Start3 = json.passes[2].start;
+            Start3 = Start3.replace("T", " ");
+            Start3 = Start3.replace("Z", " ");
+            
+        
+            var End1 = json.passes[0].end;
+            End1 = End1.replace("T", " ");
+            End1 = End1.replace("Z", " ");
+            var End2 = json.passes[1].end;
+            End2 = End2.replace("T", " ");
+            End2 = End2.replace("Z", " ");
+            var End3 = json.passes[2].end;
+            End3 = End3.replace("T", " ");
+            End3 = End3.replace("Z", " ");
+           
+        
+            document.getElementById("Record1").innerHTML = "1. Start: " + Start1;
+            document.getElementById("Record10").innerHTML = "&nbsp;&nbsp; " + " End: " + End1;
+            document.getElementById("Record2").innerHTML = "2. Start: " + Start2;
+            document.getElementById("Record20").innerHTML = "&nbsp;&nbsp; " + " End: " + End2;
+            document.getElementById("Record3").innerHTML = "3. Start: " + Start3;
+            document.getElementById("Record30").innerHTML = "&nbsp;&nbsp; " + " End: " + End3;
+            document.getElementById("Desc").innerHTML = "Only the first 3 predictions are shown";
+        });
+            }
+            
+        }
+ 
+
+
+
+        function Predict2(){
+                var Input3 = document.getElementById('input3').value;
+                prediction2();
+
+                function prediction2(){
+                    //Get Location from Geoapify
+                fetch(`https://api.geoapify.com/v1/geocode/search?text=${Input3}&format=json&apiKey=3c65e29ddd794b28bf1370e79b45e1f5`)
+            .then(response => response.json())
+            .then((json) => {
+            Userlat = json.results[0].lat;
+            Userlng = json.results[0].lon;
+            
+            
+            Prediction();
+            
+            function Prediction(){
+        fetch(`https://api.g7vrd.co.uk/v1/satellite-passes/25544/${Userlat}/${Userlng}.json?hours=72`) 
+        .then((response) => response.json())
+        .then((json) => {
+            
+            var Start1 = json.passes[0].start;
+            Start1 = Start1.replace("T", " ");
+            Start1 = Start1.replace("Z", " ");
+            var Start2 = json.passes[1].start;
+            Start2 = Start2.replace("T", " ");
+            Start2 = Start2.replace("Z", " ");
+            var Start3 = json.passes[2].start;
+            Start3 = Start3.replace("T", " ");
+            Start3 = Start3.replace("Z", " ");
+            
+        
+            var End1 = json.passes[0].end;
+            End1 = End1.replace("T", " ");
+            End1 = End1.replace("Z", " ");
+            var End2 = json.passes[1].end;
+            End2 = End2.replace("T", " ");
+            End2 = End2.replace("Z", " ");
+            var End3 = json.passes[2].end;
+            End3 = End3.replace("T", " ");
+            End3 = End3.replace("Z", " ");
+           
+        
+            document.getElementById("Record1").innerHTML = "1. Start: " + Start1;
+            document.getElementById("Record10").innerHTML = "&nbsp;&nbsp; " + " End: " + End1;
+            document.getElementById("Record2").innerHTML = "2. Start: " + Start2;
+            document.getElementById("Record20").innerHTML = "&nbsp;&nbsp; " + " End: " + End2;
+            document.getElementById("Record3").innerHTML = "3. Start: " + Start3;
+            document.getElementById("Record30").innerHTML = "&nbsp;&nbsp; " + " End: " + End3;
+            document.getElementById("Desc").innerHTML = "Only the first 3 predictions are shown";
+        });
+    }
+        });
+                }
+                    
+                }
+                
+                
+       
+    
+    
+        
+            
+            
+        
+       
+
+
+        </script>
+
+        <style>
+            body {
+                    margin: 0;
+                    padding: 0
+            } 
+
+            #flag {
+                max-width:60%;
+                max-height:60%;
+            }
+            #canvasOne {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    background-color: black;
+                   } 
+            #left-container {
+                    width: 20%;
+                    height: 90%;
+                    background-color: grey;
+                    position: absolute;
+                    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 10px;
+                    color: #fff;
+                    font-family: Helvetica;
+                    text-align: center;
+                
+
+            }
+            .input1{
+                padding-left: 10;
+                padding-right: 10;
+            }
+            .btn41-43 {
+                padding: 10px 25px;
+                font-family: "Roboto", sans-serif;
+                font-weight: 500;
+                background: transparent;
+                outline: none !important;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                display: inline-block;
+                }
+
+                .btn-43 {
+                border: 2px solid rgb(255, 255, 255);
+                z-index: 1;
+                color: white;
+                }
+
+                .btn-43:after {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 0;
+                top: 0;
+                left: 0;
+                z-index: -1;
+                background: rgb(255, 255, 255);
+                transition: all 0.3s ease;
+                }
+
+                .btn-43:hover {
+                color: rgb(0, 0, 0);
+                }
+
+                .btn-43:hover:after {
+                top: auto;
+                bottom: 0;
+                height: 100%;
+                }
+            #right-container {
+                    
+                    width: 20%;
+                    height: 100%;
+                    background-color: grey;
+                    position:absolute;
+                    top:0;
+                    right:0;
+                    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 10px;
+                    color: #fff;
+                    font-family: Helvetica;
+                    text-align: center;
+
+            }
+
+            @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=greek-ext');
+
+                            .text-center{
+                    color:#fff;	
+                    text-transform:uppercase;
+                    font-size: 23px;
+                    margin: -50px 0 80px 0;
+                    display: block;
+                    text-align: center;
+                }
+                .box{
+                    position:absolute;
+                    left:50%;
+                    top:50%;
+                    transform: translate(-50%,-50%);
+                    background-color: rgba(0, 0, 0, 0.89);
+                    border-radius:3px;
+                    padding:70px 100px;
+                }
+                .input-container{
+                    position:relative;
+                    margin-bottom:10px;
+                }
+                .input-container label{
+                    position:absolute;
+                    top:0px;
+                    left:0px;
+                    font-size:16px;
+                    color:#fff;	
+                    
+                    transition: all 0.5s ease-in-out;
+                }
+                .input-container input{ 
+                border:0;
+                border-bottom:1px solid #555;  
+                background:transparent;
+                width:100%;
+                padding:8px 0 5px 0;
+                font-size:16px;
+                color:#fff;
+                }
+                .input-container input:focus{ 
+                border:none;	
+                outline:none;
+                border-bottom:1px solid #e74c3c;	
+                }
+                .btn{
+                    color:#fff;
+                    background-color:#e74c3c;
+                    outline: none;
+                    border: 0;
+                    color: #fff;
+                    padding:10px 20px;
+                    text-transform:uppercase;
+                    margin-top:50px;
+                    border-radius:2px;
+                    cursor:pointer;
+                    position:relative;
+                }
+                /*.btn:after{
+                    content:"";
+                    position:absolute;
+                    background:rgba(0,0,0,0.50);
+                    top:0;
+                    right:0;
+                    width:100%;
+                    height:100%;
+                }*/
+                .input-container input:focus ~ label,
+                .input-container input:valid ~ label{
+                    top:-12px;
+                    font-size:12px;
+                    
+                }
+                .btn{
+                    color:#fff;
+                    background-color:#e74c3c;
+                    outline: none;
+                    border: 0;
+                    color: #fff;
+                    padding:10px 20px;
+                    text-transform:uppercase;
+                    margin-top:50px;
+                    border-radius:2px;
+                    cursor:pointer;
+                    position:relative;
+                }
+                /*.btn:after{
+                    content:"";
+                    position:absolute;
+                    background:rgba(0,0,0,0.50);
+                    top:0;
+                    right:0;
+                    width:100%;
+                    height:100%;
+                }*/
+                .input-container input:focus ~ label,
+                .input-container input:valid ~ label{
+                    top:-12px;
+                    font-size:12px;
+                    
+                }
+
+            .Heading {
+
+                    text-align: center;
+                    color: #fff;
+                    text-transform: uppercase;
+                    font-family: Helvetica;
+                    font-weight: bold;
+                    margin: 5;
+            }
+
+            .SubHeading {
+                font-size: medium;
+                margin: 7;
+            }
+
+            .SubHeading2 {
+                font-size: medium;
+                margin: 1;
+            }
+
+            .SubHeading3 {
+                font-size: small;
+                margin-bottom: 10;
+            }
+            
+            .SubHeading4 {
+                font-size: medium;
+                margin-bottom: 15;
+            }
+
+
+            .Columns2{
+                column-count: 2;
+                vertical-align: middle;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .Columns3 {
+                column-count: 3;
+                vertical-align: middle;
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 40px;
+                height: 23px;
+            }
+
+            .switch input { 
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(16px);
+                -ms-transform: translateX(16px);
+                transform: translateX(16px);
+            }
+
+               
+            .slider.round {
+                border-radius: 122px;
+            }
+
+            .slider.round {
+                border-radius: 22px;
+            }
+
+            .slider.round:before {
+                 border-radius: 50%;
+            }
+
+            #street{
+                background-image: url(images/Street.png);
+                background-repeat: no-repeat;
+                background-size: auto;
+
+            }
+
+            #geographic{
+                background-image: url(images/geographic.jpg);
+                background-repeat: no-repeat;
+                background-size: auto;
+
+            }
+
+            .image{
+                height: 50px;
+                width: 50px;
+                background-color: #ffffff;
+                border: none;
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+                }
+
+            .image:hover {
+                background: #434343;
+                letter-spacing: 1px;
+                -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+                 -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+                 box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+                transition: all 0.4s ease 0s;
+            }
+            
+
+
+
+        </style>
+    </body>
+    <script src="main.js"></script>
+</html>
